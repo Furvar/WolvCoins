@@ -1,0 +1,9 @@
+name: WolvCoins
+version: 1.0
+author: Vilevar
+main: be.Vilevar.WolvCoins.WolvCoins
+depends: [Vault]
+commands: 
+ coins:
+  description: Pour avoir la liste des commandes. /coins
+  permission: WolvCoins.list-commands.use
