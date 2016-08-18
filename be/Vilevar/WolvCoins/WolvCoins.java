@@ -33,7 +33,7 @@ public class WolvCoins extends JavaPlugin implements Listener{
 		
 		//rajouts par minute
 		
-		int minute = 20*5;;
+		int minute = 20*5;
 		final double montant = 1.0;
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable(){
@@ -48,7 +48,6 @@ public class WolvCoins extends JavaPlugin implements Listener{
 			
 		}, minute, minute);
 	}
-	
 	@EventHandler
 	public void join(PlayerJoinEvent e){
 		Player p = e.getPlayer();

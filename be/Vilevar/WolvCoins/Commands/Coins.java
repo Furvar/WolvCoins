@@ -47,7 +47,7 @@ public class Coins implements CommandExecutor {
 				p.sendMessage("---------------[*Help WolvCoins*]---------------");
 				p.sendMessage("/coins pay <joueur> <montant>: Pour payer un joueur.");
 				p.sendMessage("/coins chek: pour voir votre balance.");
-				p.sendMessage("/coins top: pour voir le classement des plus riche (non fonctionnelle).");
+				p.sendMessage("/coins top: pour voir le classement des plus riche.");
 				p.sendMessage("---------------[*Help WolvCoins*]---------------");
 				
 			}else if(args.length == 1){
@@ -60,7 +60,7 @@ public class Coins implements CommandExecutor {
 						// /top	
 						if(args[0].equalsIgnoreCase("top")){
 							if(p.hasPermission("WolvCoins.top.use")){
-							p.sendMessage("Commande en création.");	
+							p.sendMessage("Commande en création.");		
 					}
 				}
 			}else if(args.length == 2){
