@@ -32,6 +32,8 @@ public class Coins implements CommandExecutor {
 	        return (economy != null);
 	    }
 	
+	 private String notCible = ChatColor.RED+"Le joueur cible n'existe pas ou n'est pas connecté.";
+	 
 	@SuppressWarnings({ "deprecation", "unused" })
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String msg, String[] args) {
@@ -59,7 +61,7 @@ public class Coins implements CommandExecutor {
 					// /top
 					if(args[0].equalsIgnoreCase("top")){
 						if(s.hasPermission("wolvcoins.top")){
-							s.sendMessage(ChatColor.DARK_GREEN+"C'est "+ChatColor.AQUA+WolvCoins.meilleurPlayer+ChatColor.DARK_GREEN+" qui "+ChatColor.GRAY+"a (eu) le plus de C.W. avec un montant de "+ChatColor.YELLOW+WolvCoins.meilleurCW+" C.W.");
+							s.sendMessage(ChatColor.DARK_GREEN+"C'est "+ChatColor.AQUA+WolvCoins.meilleurPlayer+ChatColor.DARK_GREEN+" qui "+ChatColor.GRAY+"a le plus de C.W. avec un montant de "+ChatColor.YELLOW+WolvCoins.meilleurCW+" C.W.");
 						}
 					}
 					// /help
@@ -69,6 +71,7 @@ public class Coins implements CommandExecutor {
 							s.sendMessage(ChatColor.GOLD+"/coins check <joueur>: "+ChatColor.DARK_GREEN+"Pour voir la banque d'un joueur.");
 							s.sendMessage(ChatColor.GOLD+"/coins add <joueur> <montant>: "+ChatColor.DARK_GREEN+"Pour rajouter des W.C. à un joueur.");
 							s.sendMessage(ChatColor.GOLD+"/coins remove <joueur> <montant>: "+ChatColor.DARK_GREEN+"Pour supprimer des W.C. à un joueur.");
+							s.sendMessage(ChatColor.GOLD+"/coins set <joueur> <nb de coins>: "+ChatColor.DARK_GREEN+"Pour mettre un nombre précis de W.C. à un joueur.");							
 							s.sendMessage(ChatColor.GOLD+"/coins addpremium <joueur>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur premium, s'il l'est déjà, le monté de niveau.");
 							s.sendMessage(ChatColor.GOLD+"/coins removepremium <joueur>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur normal, s'il a plusieurs niveaux premium, le descendre de 1.");
 							s.sendMessage(ChatColor.GOLD+"/coins setpremium <joueur> <niveau>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur premium au niveau que vous souhaitez.");
@@ -357,7 +360,7 @@ public class Coins implements CommandExecutor {
 								s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"rajouter "+ChatColor.YELLOW+montant+" C.W. à "+ChatColor.AQUA+cible.getName());
 								cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"rajouter "+ChatColor.YELLOW+montant+" C.W.");
 							}else{
-								s.sendMessage(ChatColor.RED+"Le joueur cible n'existe pas ou n'est pas connecté.");
+								s.sendMessage(notCible);
 							}
 						}
 					}
@@ -368,18 +371,41 @@ public class Coins implements CommandExecutor {
 							Player cible = Bukkit.getPlayer(args[1]);
 							double montant = Double.parseDouble(args[2]);
 								
-						if(cible != null){
-							if(economy.getBalance(cible) >= montant){
-								economy.withdrawPlayer(cible, montant);
-								cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"supprimer "+ChatColor.YELLOW+montant+" C.W.");
-								s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"supprimer "+ChatColor.YELLOW+montant+" C.W. à "+ChatColor.AQUA+cible.getName());
-								}else{
-								s.sendMessage(ChatColor.RED+"Le joueur cible n'a pas la somme de C.W. que vous voulez lui retirer.");
-							}
-						}else{
-							s.sendMessage(ChatColor.RED+"Le joueur cible n'existe pas ou n'est pas connecté.");
+							if(cible != null){
+								if(economy.getBalance(cible) >= montant){
+									economy.withdrawPlayer(cible, montant);
+									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"supprimer "+ChatColor.YELLOW+montant+" C.W.");
+									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"supprimer "+ChatColor.YELLOW+montant+" C.W. à "+ChatColor.AQUA+cible.getName());
+									}else{
+										s.sendMessage(ChatColor.RED+"Le joueur cible n'a pas la somme de C.W. que vous voulez lui retirer.");
+									}
+							}else{
+								s.sendMessage(notCible);
 							}
 						}		
+					}
+					// /set
+					if(args[0].equalsIgnoreCase("set")){
+						//PAS OUBLIER DE METTRE LA PERMISSION
+						if(s.isOp()){
+							
+							Player cible = Bukkit.getPlayer(args[1]);
+							double set = Double.parseDouble(args[2]);
+							double bank = economy.getBalance(cible);
+							double montant = set - bank;
+							
+							if(cible != null){
+								if(set >= 0){
+									economy.depositPlayer(cible, montant);
+									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"le compte de "+ChatColor.AQUA+cible.getName()+ChatColor.DARK_GREEN+" à "+ChatColor.YELLOW+set+" C.W.");
+									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"votre compte à "+ChatColor.YELLOW+set+" C.W.");
+								}else{
+									s.sendMessage(ChatColor.RED+"Vous ne pouvez pas lui mettre un nombre inférieur à 0 C.W.");
+								}
+							}else{
+								s.sendMessage(notCible);
+							}
+						}
 					}
 					// /setPremium
 					if(args[0].equalsIgnoreCase("setpremium")){
