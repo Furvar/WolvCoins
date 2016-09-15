@@ -46,6 +46,19 @@ public enum Jobs {
 		return i;
 	}
 	
+	public Jobs getUtilisator(UUID uuid){
+		
+		if(uuid == null){
+			return null;
+		}
+		if(WolvCoins.getInstance().jobs.get(uuid) != null){
+			return WolvCoins.getInstance().jobs.get(uuid);
+		}
+		else{
+			return null;
+		}
+	}
+	
 	public void add(UUID uuid){
 		
 		if(WolvCoins.getInstance().jobs.containsKey(uuid)){
