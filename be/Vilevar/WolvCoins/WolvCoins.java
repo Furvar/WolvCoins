@@ -1,5 +1,6 @@
 package be.Vilevar.WolvCoins;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -7,22 +8,21 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import be.Vilevar.WolvCoins.Commands.Coins;
-import be.Vilevar.WolvCoins.Commands.Epee;
-import be.Vilevar.WolvCoins.Commands.Hache;
-import be.Vilevar.WolvCoins.Commands.Houe;
-import be.Vilevar.WolvCoins.Commands.JobsMaincmd;
-import be.Vilevar.WolvCoins.Commands.Pioche;
+import be.Vilevar.WolvCoins.Events.EventsManager;
 import be.Vilevar.WolvCoins.Jobs.Jobs;
+import be.Vilevar.WolvCoins.Jobs.JobsClickMenu;
 
-public class WolvCoins extends JavaPlugin {
+public class WolvCoins extends JavaPlugin implements Listener {
 
 	public HashMap<UUID, Jobs> jobs = new HashMap<>();
 	public HashMap<UUID, Integer> level = new HashMap<>();
 	public HashMap<UUID, Double> miniLvl = new HashMap<>();
+	
+	public ArrayList<UUID> notJobsUtilise = new ArrayList<>();
 	
 	//PAS OUBLIER DE METTRE LA PERMISSION A LA COMMANDE /COINS SET <JOUEUR> <NB DE COINS>
 	
@@ -63,22 +63,11 @@ public class WolvCoins extends JavaPlugin {
 	public void onEnable() {
 		super.onEnable();
 		instance = this;
-		
-/*		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new Fermier(), pl);
-		pm.registerEvents(new Mineur(), pl);
-		pm.registerEvents(new Bucheron(), pl);
-		pm.registerEvents(new Chasseur(), pl);
-		pm.registerEvents(new Defenseur(), pl);*/
-		
-		// for coins
-		getCommand("coins").setExecutor(new Coins());
-		//for jobs
-		getCommand("jobs").setExecutor(new JobsMaincmd());
-		getCommand("houe").setExecutor(new Houe());
-		getCommand("pioche").setExecutor(new Pioche());
-		getCommand("hache").setExecutor(new Hache());
-		getCommand("epee").setExecutor(new Epee());
+		getServer().getPluginManager().registerEvents(this, this);
+		new EventsManager(this).registerEvents();
+
+		//constructor
+		new JobsClickMenu();
 		
 		// addCoins
 		long temps = 20 * 60;
@@ -132,5 +121,14 @@ public class WolvCoins extends JavaPlugin {
 						}
 					}
 				}, temps, temps);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable(){
+
+			@Override
+			public void run() {
+				
+				notJobsUtilise.clear();
+				
+			}
+		}, 5*20, 5*20);
 	}
 }
