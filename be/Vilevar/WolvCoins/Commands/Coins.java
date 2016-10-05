@@ -13,8 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import be.Vilevar.WolvCoins.WolvCoins;
+import be.Vilevar.WolvCoins.Jobs.Jobs;
 
 public class Coins implements CommandExecutor {
+
 
 	public Economy economy = null;
 	
@@ -287,7 +289,7 @@ public class Coins implements CommandExecutor {
 						if(s.hasPermission("wolvcoins.premiumInfo")){
 							s.sendMessage(ChatColor.LIGHT_PURPLE+"-----------[*Premium Info*]----------");
 							s.sendMessage(ChatColor.GOLD+"niveau 1:  "+ChatColor.DARK_GREEN+"-reçois 1.5 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
+							s.sendMessage(ChatColor.DARK_GREEN+"           -à partir de ce niveau premium, vous débloquez "+Jobs.DEFENSEUR.getJobName()+".");
 							s.sendMessage(ChatColor.GOLD+"niveau 2:  "+ChatColor.DARK_GREEN+"-reçois 2 C.W. par minute.");
 							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
 							s.sendMessage(ChatColor.GOLD+"niveau 3:  "+ChatColor.DARK_GREEN+"-reçois 2.5 C.W. par minute.");
