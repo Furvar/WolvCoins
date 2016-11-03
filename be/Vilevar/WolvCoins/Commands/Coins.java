@@ -1,7 +1,5 @@
 package be.Vilevar.WolvCoins.Commands;
 
-import java.util.UUID;
-
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
@@ -13,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import be.Vilevar.WolvCoins.WolvCoins;
-import be.Vilevar.WolvCoins.Jobs.Jobs;
 
 public class Coins implements CommandExecutor {
 
@@ -31,7 +28,7 @@ public class Coins implements CommandExecutor {
 	
 	 private String notCible = ChatColor.RED+"Le joueur cible n'existe pas ou n'est pas connecté.";
 	 
-	@SuppressWarnings({ "deprecation", "unused" })
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String msg, String[] args) {
 		if(setupEconomy()){
@@ -61,6 +58,14 @@ public class Coins implements CommandExecutor {
 							s.sendMessage(ChatColor.DARK_GREEN+"C'est "+ChatColor.AQUA+WolvCoins.getInstance().meilleurPlayer+ChatColor.DARK_GREEN+" qui "+ChatColor.GRAY+"a le plus de C.W. avec un montant de "+ChatColor.YELLOW+WolvCoins.getInstance().meilleurCW+" C.W.");
 						}
 					}
+					// /resetTop
+					if(args[0].equalsIgnoreCase("resettop")){
+						if(s.isOp()){
+							WolvCoins.getInstance().meilleurCW = 1;
+							WolvCoins.getInstance().meilleurPlayer = ChatColor.DARK_BLUE+"§kpersonne";
+							s.sendMessage(ChatColor.GREEN+"Vous venez de reset le "+ChatColor.ITALIC+"/coins top.");
+						}
+					}
 					// /help
 					if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
 						if(s.hasPermission("wolvcoins.helpSecretCommands")){
@@ -69,10 +74,7 @@ public class Coins implements CommandExecutor {
 							s.sendMessage(ChatColor.GOLD+"/coins add <joueur> <montant>: "+ChatColor.DARK_GREEN+"Pour rajouter des W.C. à un joueur.");
 							s.sendMessage(ChatColor.GOLD+"/coins remove <joueur> <montant>: "+ChatColor.DARK_GREEN+"Pour supprimer des W.C. à un joueur.");
 							s.sendMessage(ChatColor.GOLD+"/coins set <joueur> <nb de coins>: "+ChatColor.DARK_GREEN+"Pour mettre un nombre précis de W.C. à un joueur.");							
-							s.sendMessage(ChatColor.GOLD+"/coins addpremium <joueur>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur premium, s'il l'est déjà, le monté de niveau.");
-							s.sendMessage(ChatColor.GOLD+"/coins removepremium <joueur>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur normal, s'il a plusieurs niveaux premium, le descendre de 1.");
-							s.sendMessage(ChatColor.GOLD+"/coins setpremium <joueur> <niveau>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur premium au niveau que vous souhaitez.");
-							s.sendMessage(ChatColor.GOLD+"/coins unsetpremium <joueur>: "+ChatColor.DARK_GREEN+"Pour mettre un joueur normal quelque soit son niveau premium.");
+							s.sendMessage(ChatColor.GOLD+"/coins resettop: "+ChatColor.DARK_GREEN+"Pour réinitialiser le /coins top.");
 							s.sendMessage(ChatColor.LIGHT_PURPLE+"----------[*Commandes Secrètes WolvCoins*]---------");
 						}
 					}
@@ -83,234 +85,10 @@ public class Coins implements CommandExecutor {
 						if(s.hasPermission("wolvcoins.getCheckPlayer")){
 							Player cible = Bukkit.getPlayer(args[1]);
 							if(cible != null){
-							s.sendMessage(ChatColor.AQUA+cible.getName()+ChatColor.GRAY+" a "+ChatColor.YELLOW+economy.getBalance(cible)+" C.W.");
+								s.sendMessage(ChatColor.AQUA+cible.getName()+ChatColor.GRAY+" a "+ChatColor.YELLOW+economy.getBalance(cible));
 							}else{
 								s.sendMessage(notCible);
 							}
-						}
-					}
-					// /addPremium
-					if(args[0].equalsIgnoreCase("addpremium")){
-						if(s.hasPermission("wolvcoins.addPremium")){
-							Player cible = Bukkit.getPlayer(args[1]);
-							UUID uuid = cible.getUniqueId();
-							if(cible != null){
-								if(WolvCoins.getInstance().premium1.containsKey(uuid)){
-									WolvCoins.getInstance().premium1.remove(uuid);
-									WolvCoins.getInstance().premium2.put(uuid, 2);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(2).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(2).");
-								}
-								if(WolvCoins.getInstance().premium2.containsKey(uuid)){
-									WolvCoins.getInstance().premium2.remove(uuid);
-									WolvCoins.getInstance().premium3.put(uuid, 3);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(3).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(3).");
-								}
-								if(WolvCoins.getInstance().premium3.containsKey(uuid)){
-									WolvCoins.getInstance().premium3.remove(uuid);
-									WolvCoins.getInstance().premium4.put(uuid, 4);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(4).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(4).");
-								}
-								if(WolvCoins.getInstance().premium4.containsKey(uuid)){
-									WolvCoins.getInstance().premium4.remove(uuid);
-									WolvCoins.getInstance().premium5.put(uuid, 5);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(5).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(5).");
-								}
-								if(WolvCoins.getInstance().premium5.containsKey(uuid)){
-									WolvCoins.getInstance().premium5.remove(uuid);
-									WolvCoins.getInstance().premium6.put(uuid, 6);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(6).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(6).");
-								}
-								if(WolvCoins.getInstance().premium6.containsKey(uuid)){
-									WolvCoins.getInstance().premium6.remove(uuid);
-									WolvCoins.getInstance().premium7.put(uuid, 7);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(7).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(7).");
-								}
-								if(WolvCoins.getInstance().premium7.containsKey(uuid)){
-									WolvCoins.getInstance().premium7.remove(uuid);
-									WolvCoins.getInstance().premium8.put(uuid, 8);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(8).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(8).");
-								}
-								if(WolvCoins.getInstance().premium8.containsKey(uuid)){
-									WolvCoins.getInstance().premium8.remove(uuid);
-									WolvCoins.getInstance().premium9.put(uuid, 9);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(9).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(9).");
-								}
-								if(WolvCoins.getInstance().premium9.containsKey(uuid)){
-									WolvCoins.getInstance().premium9.remove(uuid);
-									WolvCoins.getInstance().premium10.put(uuid, 10);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(10).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(10).");
-									Bukkit.broadcastMessage(ChatColor.YELLOW+cible.getName()+" vient de passer niveau 10 "+ChatColor.UNDERLINE+""+ChatColor.GREEN+" premium "+ChatColor.RESET+""+ChatColor.YELLOW+"!");
-								}
-								if(WolvCoins.getInstance().premium10.containsKey(uuid)){
-									s.sendMessage(ChatColor.RED+"Vous ne pouvez pas améliorer le niveau premium de "+cible.getName()+" car il est déjà au niveau maximal.");
-								}
-								if(!WolvCoins.getInstance().premium.containsKey(uuid)){
-									WolvCoins.getInstance().premium1.put(uuid, 1);
-									WolvCoins.getInstance().premium.put(uuid, 1);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(1).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(1).");
-								}
-							}else{
-								s.sendMessage(notCible);
-							}
-						}
-					}
-					// /removePremium
-					if(args[0].equalsIgnoreCase("removepremium")){
-						if(s.hasPermission("wolvcoins.removePremium")){
-							Player cible = Bukkit.getPlayer(args[1]);
-							UUID uuid = cible.getUniqueId();
-							if(cible != null){
-								if(WolvCoins.getInstance().premium1.containsKey(uuid)){
-									WolvCoins.getInstance().premium1.remove(uuid);
-									WolvCoins.getInstance().premium.remove(uuid);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" normal.");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"normal.");
-								}
-								if(WolvCoins.getInstance().premium2.containsKey(uuid)){
-									WolvCoins.getInstance().premium2.remove(uuid);
-									WolvCoins.getInstance().premium1.put(uuid, 1);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(1).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(1).");
-								}
-								if(WolvCoins.getInstance().premium3.containsKey(uuid)){
-									WolvCoins.getInstance().premium3.remove(uuid);
-									WolvCoins.getInstance().premium2.put(uuid, 2);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(2).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(2).");
-								}
-								if(WolvCoins.getInstance().premium4.containsKey(uuid)){
-									WolvCoins.getInstance().premium4.remove(uuid);
-									WolvCoins.getInstance().premium3.put(uuid, 3);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(3).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(3).");
-								}
-								if(WolvCoins.getInstance().premium5.containsKey(uuid)){
-									WolvCoins.getInstance().premium5.remove(uuid);
-									WolvCoins.getInstance().premium4.put(uuid, 4);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(4).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(4).");
-								}
-								if(WolvCoins.getInstance().premium6.containsKey(uuid)){
-									WolvCoins.getInstance().premium6.remove(uuid);
-									WolvCoins.getInstance().premium5.put(uuid, 5);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(5).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(5).");
-								}
-								if(WolvCoins.getInstance().premium7.containsKey(uuid)){
-									WolvCoins.getInstance().premium7.remove(uuid);
-									WolvCoins.getInstance().premium6.put(uuid, 6);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(6).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(6).");
-								}
-								if(WolvCoins.getInstance().premium8.containsKey(uuid)){
-									WolvCoins.getInstance().premium8.remove(uuid);
-									WolvCoins.getInstance().premium7.put(uuid, 7);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(7).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(7).");
-								}
-								if(WolvCoins.getInstance().premium9.containsKey(uuid)){
-									WolvCoins.getInstance().premium9.remove(uuid);
-									WolvCoins.getInstance().premium8.put(uuid, 8);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(8).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(8).");
-								}
-								if(WolvCoins.getInstance().premium10.containsKey(uuid)){
-									WolvCoins.getInstance().premium10.remove(uuid);
-									WolvCoins.getInstance().premium9.put(uuid, 9);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(9).");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(9).");
-								}if(!WolvCoins.getInstance().premium.containsKey(uuid)){
-									s.sendMessage(ChatColor.RED+"Vous ne pouvez pas baissez le niveau premium du joueur cible car il ne l'est pas.");
-								}
-							}else{
-								s.sendMessage(notCible);
-							}
-						}
-					}
-					// /unsetPremium
-					if(args[0].equalsIgnoreCase("unsetpremium")){
-						if(s.hasPermission("wolvcoins.unsetPremium")){
-							Player cible = Bukkit.getPlayer(args[1]);
-							if(cible != null){
-								if(WolvCoins.getInstance().premium.containsKey(cible.getUniqueId())){
-									WolvCoins.getInstance().premium.remove(cible.getUniqueId());
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" normal.");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"normal.");
-									if(WolvCoins.getInstance().premium1.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium1.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium2.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium2.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium3.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium3.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium4.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium4.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium5.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium5.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium6.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium6.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium7.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium7.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium8.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium8.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium9.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium9.remove(cible.getUniqueId());
-									}
-									if(WolvCoins.getInstance().premium10.containsKey(cible.getUniqueId())){
-										WolvCoins.getInstance().premium10.remove(cible.getUniqueId());
-									}
-								}else{
-									s.sendMessage(ChatColor.RED+"Le joueur cible n'est pas premium.");
-								}
-							}else{
-								s.sendMessage(ChatColor.RED+"Le joueur cible n'existe pas ou n'est pas connecté.");
-							}
-						}
-					}
-					// /premium info
-					if(args[0].equalsIgnoreCase("premium") && args[1].equalsIgnoreCase("info")){
-						if(s.hasPermission("wolvcoins.premiumInfo")){
-							s.sendMessage(ChatColor.LIGHT_PURPLE+"-----------[*Premium Info*]----------");
-							s.sendMessage(ChatColor.GOLD+"niveau 1:  "+ChatColor.DARK_GREEN+"-reçois 1.5 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -à partir de ce niveau premium, vous débloquez "+Jobs.DEFENSEUR.getJobName()+".");
-							s.sendMessage(ChatColor.GOLD+"niveau 2:  "+ChatColor.DARK_GREEN+"-reçois 2 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 3:  "+ChatColor.DARK_GREEN+"-reçois 2.5 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 4:  "+ChatColor.DARK_GREEN+"-reçois 3.0 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 5:  "+ChatColor.DARK_GREEN+"-reçois 3.5 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 6:  "+ChatColor.DARK_GREEN+"-reçois 4.0 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 7:  "+ChatColor.DARK_GREEN+"-reçois 5.0 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 8:  "+ChatColor.DARK_GREEN+"-reçois 6.0 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 9:  "+ChatColor.DARK_GREEN+"-reçois 7 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.GOLD+"niveau 10: "+ChatColor.DARK_GREEN+"-reçois 10.0 C.W. par minute.");
-							s.sendMessage(ChatColor.DARK_GREEN+"           -Nous attendons une idée pour mettre un nouvel ajout.");
-							s.sendMessage(ChatColor.AQUA+"Contactez un membre du staff ou Vilevar si vous avez une idée pour un nouvel ajout.");
-							s.sendMessage(ChatColor.AQUA+"Contactez un membre du staff pour devenir premium.");
-							s.sendMessage(ChatColor.LIGHT_PURPLE+"-----------[*Premium Info*]----------");
 						}
 					}
 				}
@@ -321,7 +99,6 @@ public class Coins implements CommandExecutor {
 							if(s instanceof Player){
 								
 								Player p = (Player)s;
-								UUID uuid = p.getUniqueId();
 								Player cible = Bukkit.getPlayer(args[1]);
 								double montant = Double.parseDouble(args[2]);
 						
@@ -392,121 +169,20 @@ public class Coins implements CommandExecutor {
 							double montant = set - bank;
 							if(cible != null){
 								if(set >= 0){
-									economy.depositPlayer(cible, montant);
-									s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"le compte de "+ChatColor.AQUA+cible.getName()+ChatColor.DARK_GREEN+" à "+ChatColor.YELLOW+set+" C.W.");
-									cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"votre compte à "+ChatColor.YELLOW+set+" C.W.");
+									if(set < bank){
+										economy.withdrawPlayer(cible, bank);
+										economy.depositPlayer(cible, set);
+										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"le compte de "+ChatColor.AQUA+cible.getName()+ChatColor.DARK_GREEN+" à "+ChatColor.YELLOW+set+" C.W.");
+										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"votre compte à "+ChatColor.YELLOW+set+" C.W.");
+									}
+									else if(bank < set){
+										economy.depositPlayer(cible, montant);
+										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"le compte de "+ChatColor.AQUA+cible.getName()+ChatColor.DARK_GREEN+" à "+ChatColor.YELLOW+set+" C.W.");
+										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.DARK_GREEN+"votre compte à "+ChatColor.YELLOW+set+" C.W.");
+									}
 								}else{
 									s.sendMessage(ChatColor.RED+"Vous ne pouvez pas lui mettre un nombre inférieur à 0 C.W.");
 								}
-							}else{
-								s.sendMessage(notCible);
-							}
-						}
-					}
-					// /setPremium
-					if(args[0].equalsIgnoreCase("setpremium")){
-						if(s.hasPermission("wolvcoins.setPremium")){
-							
-							Player cible = Bukkit.getPlayer(args[1]);
-							UUID uuid = cible.getUniqueId();
-							
-							if(cible != null){
-								if(WolvCoins.getInstance().premium.containsKey(uuid)){
-									if(WolvCoins.getInstance().premium1.containsKey(uuid)){
-										WolvCoins.getInstance().premium1.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium2.containsKey(uuid)){
-										WolvCoins.getInstance().premium2.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium2.containsKey(uuid)){
-										WolvCoins.getInstance().premium2.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium3.containsKey(uuid)){
-										WolvCoins.getInstance().premium3.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium4.containsKey(uuid)){
-										WolvCoins.getInstance().premium4.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium5.containsKey(uuid)){
-										WolvCoins.getInstance().premium5.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium6.containsKey(uuid)){
-										WolvCoins.getInstance().premium6.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium7.containsKey(uuid)){
-										WolvCoins.getInstance().premium7.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium8.containsKey(uuid)){
-										WolvCoins.getInstance().premium8.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium9.containsKey(uuid)){
-										WolvCoins.getInstance().premium9.remove(uuid);
-									}
-									if(WolvCoins.getInstance().premium10.containsKey(uuid)){
-										WolvCoins.getInstance().premium10.remove(uuid);
-									}
-									WolvCoins.getInstance().premium.remove(uuid);
-								}
-									if(args[2].equalsIgnoreCase("1")){
-										WolvCoins.getInstance().premium.put(uuid, 1);
-										WolvCoins.getInstance().premium1.put(uuid, 1);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(1).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(1).");
-									}
-									if(args[2].equalsIgnoreCase("2")){
-										WolvCoins.getInstance().premium.put(uuid, 2);
-										WolvCoins.getInstance().premium2.put(uuid, 2);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(2).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(2).");
-									}
-									if(args[2].equalsIgnoreCase("3")){
-										WolvCoins.getInstance().premium.put(uuid, 3);
-										WolvCoins.getInstance().premium3.put(uuid, 3);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(3).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(3).");
-									}
-									if(args[2].equalsIgnoreCase("4")){
-										WolvCoins.getInstance().premium.put(uuid, 4);
-										WolvCoins.getInstance().premium4.put(uuid, 4);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(4).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(4).");
-									}
-									if(args[2].equalsIgnoreCase("5")){
-										WolvCoins.getInstance().premium.put(uuid, 5);
-										WolvCoins.getInstance().premium5.put(uuid, 5);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(5).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(5).");
-									}
-									if(args[2].equalsIgnoreCase("6")){
-										WolvCoins.getInstance().premium.put(uuid, 6);
-										WolvCoins.getInstance().premium6.put(uuid, 6);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(6).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(6).");
-									}
-									if(args[2].equalsIgnoreCase("7")){
-										WolvCoins.getInstance().premium.put(uuid, 7);
-										WolvCoins.getInstance().premium7.put(uuid, 7);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(7).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(7).");
-									}
-									if(args[2].equalsIgnoreCase("8")){
-										WolvCoins.getInstance().premium.put(uuid, 8);
-										WolvCoins.getInstance().premium8.put(uuid, 8);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(8).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(8).");
-									}
-									if(args[2].equalsIgnoreCase("9")){
-										WolvCoins.getInstance().premium.put(uuid, 9);
-										WolvCoins.getInstance().premium9.put(uuid, 9);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(9).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(9).");
-									}
-									if(args[2].equalsIgnoreCase("10")){
-										WolvCoins.getInstance().premium.put(uuid, 10);
-										WolvCoins.getInstance().premium10.put(uuid, 10);
-										s.sendMessage(ChatColor.DARK_GREEN+"Vous venez de "+ChatColor.GRAY+"mettre "+ChatColor.AQUA+cible.getName()+ChatColor.YELLOW+" premium(10).");
-										cible.sendMessage(ChatColor.AQUA+s.getName()+ChatColor.DARK_GREEN+" vient de vous "+ChatColor.GRAY+"mettre "+ChatColor.YELLOW+"premium(10).");
-									}
 							}else{
 								s.sendMessage(notCible);
 							}
