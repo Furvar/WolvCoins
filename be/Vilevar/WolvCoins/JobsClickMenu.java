@@ -21,44 +21,50 @@ public class JobsClickMenu implements Listener {
 
 	ArrayList<ItemStack> item = new ArrayList<>();
 	
-	Inventory Fermier = null;
-	Inventory Mineur = null;
-	Inventory Bucheron = null;
-	Inventory Defenseur = null;
-	Inventory Chasseur = null;
-	Inventory Acceuil = null;
+	Inventory Fermier;
+	Inventory Mineur;
+	Inventory Bucheron;
+	Inventory Defenseur;
+	Inventory Chasseur;
+	Inventory Acceuil;
 	
 	public JobsClickMenu(){
 		
-		//fermier
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 1", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 2", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 3", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 4", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 5", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 6", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 7", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 8", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.WOOL, (byte)5, "Niveau 9", "t", "d", "g", "a", "n"));
-		item.add(getItem(Material.NETHER_STAR, (byte)0, "Niveau 10", "t", "d", "g", "a", "n"));
+/* §6 => ChatColor.GOLD
+ * §a => ChatColor.GREEN
+ * §b => ChatColor.AQUA
+ * §d => ChatColor.LIGHT_PURPLE
+ */
 		
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 1", "§64% de chance de gagner 1 C.W.", "§a10% de chance de monter de 15 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 2", "§64% de chance de gagner 3 C.W.", "§a10% de chance de gagner 12,5 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 3", "§610% de chance de gagner 5 C.W.", "§a15% de chance de monter de 10 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 4", "§610% de chance de gagner 7 C.W.", "§a15% de chance de monter de 7,5 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 5", "§615% de chance de gagner 10 C.W.", "§a10% de chance de monter de 10 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 6", "§620% de chance de gagner 10 C.W.", "§a15% de chance de monter de 7,5 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 7", "§625% de chance de gagner 10 C.W.", "§a15% de chance de monter de 6 mini-niveaux"));
+		item.add(getItem1(Material.WOOL, (byte)5, "Niveau 8", "§625% de chance de gagner 15 C.W.", "§a20% de chance de monter de 5 mini-niveaux"));
+		item.add(getItem3(Material.WOOL, (byte)5, "Niveau 9", "§b50% de chance d'activer une capacité", "§675% de chance de gagner 10 C.W.", "§a50% de chance de monter de 3 mini-niveaux", "§d10% de chance de rajouter un drop mystère prédéfini"));
+		item.add(getItem3(Material.NETHER_STAR, (byte)0, "Niveau 10", "§b75% de chance d'activer une capacité", "§695% de chance de gagner 10 C.W.", "§650% de chance de gagner 20 C.W.","§d20% de chance de rajouter des drops mystères prédéfinis"));
+		
+	//inventaires
 		//fermier
 		Inventory fermier = Bukkit.createInventory(null, 2*9, ChatColor.YELLOW+"Jobs "+ChatColor.GREEN+"Fermier");
 		
-		fermier.setItem(0, getItem(Material.WOOL, (byte)5, "Niveau 1", "t", "d", "g", "a", "n"));
-		fermier.setItem(1, getItem(Material.WOOL, (byte)5, "Niveau 2", "t", "d", "g", "a", "n"));
-		fermier.setItem(2, getItem(Material.WOOL, (byte)5, "Niveau 3", "t", "d", "g", "a", "n"));
-		fermier.setItem(3, getItem(Material.WOOL, (byte)5, "Niveau 4", "t", "d", "g", "a", "n"));
-		fermier.setItem(4, getItem(Material.WOOL, (byte)5, "Niveau 5", "t", "d", "g", "a", "n"));
-		fermier.setItem(5, getItem(Material.WOOL, (byte)5, "Niveau 6", "t", "d", "g", "a", "n"));
-		fermier.setItem(6, getItem(Material.WOOL, (byte)5, "Niveau 7", "t", "d", "g", "a", "n"));
-		fermier.setItem(7, getItem(Material.WOOL, (byte)5, "Niveau 8", "t", "d", "g", "a", "n"));
-		fermier.setItem(8, getItem(Material.WOOL, (byte)5, "Niveau 9", "t", "d", "g", "a", "n"));
-		fermier.setItem(9, getItem(Material.NETHER_STAR, (byte)0, "Niveau 10", "t", "d", "g", "a", "n"));
-		fermier.setItem(15, getItem(Material.WOOL, (byte)14, "Quitter ce métier", "", "", "", "", ""));
-		fermier.setItem(16, getItem(Material.FIREWORK, (byte)0, "Aller dans ce métier", "", "", "", "", ""));
-		fermier.setItem(17, getItem(Material.ARROW, (byte)0, "retour", "", "", "", "", ""));
-		Fermier = fermier;
+		fermier.setItem(0, getItem1(Material.WOOL, (byte)5, "Niveau 1", "§64% de chance de gagner 1 C.W.", "§a10% de chance de monter de 15 mini-niveaux"));
+		fermier.setItem(1, getItem1(Material.WOOL, (byte)5, "Niveau 2", "§64% de chance de gagner 3 C.W.", "§a10% de chance de gagner 12,5 mini-niveaux"));
+		fermier.setItem(2, getItem1(Material.WOOL, (byte)5, "Niveau 3", "§610% de chance de gagner 5 C.W.", "§a15% de chance de monter de 10 mini-niveaux"));
+		fermier.setItem(3, getItem1(Material.WOOL, (byte)5, "Niveau 4", "§610% de chance de gagner 7 C.W.", "§a15% de chance de monter de 7,5 mini-niveaux"));
+		fermier.setItem(4, getItem1(Material.WOOL, (byte)5, "Niveau 5", "§615% de chance de gagner 10 C.W.", "§a10% de chance de monter de 10 mini-niveaux"));
+		fermier.setItem(5, getItem1(Material.WOOL, (byte)5, "Niveau 6", "§620% de chance de gagner 10 C.W.", "§a15% de chance de monter de 7,5 mini-niveaux"));
+		fermier.setItem(6, getItem1(Material.WOOL, (byte)5, "Niveau 7", "§625% de chance de gagner 10 C.W.", "§a15% de chance de monter de 6 mini-niveaux"));
+		fermier.setItem(7, getItem1(Material.WOOL, (byte)5, "Niveau 8", "§25% de chance de gagner 15 C.W.", "§a20% de chance de monter de 5 mini-niveaux"));
+		fermier.setItem(8, getItem3(Material.WOOL, (byte)5, "Niveau 9", "§b50% de chance d'activer une capacité", "§675% de chance de gagner 10 C.W.", "§a50% de chance de monter de 3 mini-niveaux", "§d10% de chance de rajouter un drop mystère prédéfini"));
+		fermier.setItem(9, getItem3(Material.NETHER_STAR, (byte)0, "Niveau 10", "§b75% de chance d'activer une capacité", "§695% de chance de gagner 10 C.W.", "§650% de chance de gagner 20 C.W.","§d20% de chance de rajouter des drops mystères prédéfinis"));
+		fermier.setItem(15, getItem0(Material.WOOL, (byte)14, ChatColor.RED+"Quitter ce métier"));
+		fermier.setItem(16, getItem0(Material.FIREWORK, (byte)0, ChatColor.BLUE+"Aller dans ce métier"));
+		fermier.setItem(17, getItem0(Material.ARROW, (byte)0, ChatColor.DARK_AQUA+"retour"));
+		this.Fermier = fermier;
 		
 		//mineur
 		Inventory mineur = Bukkit.createInventory(null, 2*9, ChatColor.YELLOW+"Jobs "+ChatColor.GRAY+"Mineur");
@@ -76,7 +82,7 @@ public class JobsClickMenu implements Listener {
 		mineur.setItem(15, getItem(Material.WOOL, (byte)14, "Quitter ce métier", "", "", "", "", ""));
 		mineur.setItem(16, getItem(Material.FIREWORK, (byte)0, "Aller dans ce métier", "", "", "", "", ""));
 		mineur.setItem(17, getItem(Material.ARROW, (byte)0, "retour", "", "", "", "", ""));
-		Mineur = mineur;
+		this.Mineur = mineur;
 		
 		//bucheron
 		Inventory bucheron = Bukkit.createInventory(null, 2*9, ChatColor.YELLOW+"Jobs "+ChatColor.BLUE+"Bucheron");
@@ -94,7 +100,7 @@ public class JobsClickMenu implements Listener {
 		bucheron.setItem(15, getItem(Material.WOOL, (byte)14, "Quitter ce métier", "", "", "", "", ""));
 		bucheron.setItem(16, getItem(Material.FIREWORK, (byte)0, "Aller dans ce métier", "", "", "", "", ""));
 		bucheron.setItem(17, getItem(Material.ARROW, (byte)0, "retour", "", "", "", "", ""));
-		Bucheron = bucheron;
+		this.Bucheron = bucheron;
 		
 		//defenseur
 		Inventory defenseur = Bukkit.createInventory(null, 2*9, ChatColor.YELLOW+"Jobs "+ChatColor.RED+"Défenseur");
@@ -112,7 +118,7 @@ public class JobsClickMenu implements Listener {
 		defenseur.setItem(15, getItem(Material.WOOL, (byte)14, "Quitter ce métier", "", "", "", "", ""));
 		defenseur.setItem(16, getItem(Material.FIREWORK, (byte)0, "Aller dans ce métier", "", "", "", "", ""));
 		defenseur.setItem(17, getItem(Material.ARROW, (byte)0, "retour", "", "", "", "", ""));
-		Defenseur = defenseur;
+		this.Defenseur = defenseur;
 		
 		//chasseur
 		Inventory chasseur = Bukkit.createInventory(null, 2*9, ChatColor.YELLOW+"Jobs "+ChatColor.GOLD+"Chasseur");
@@ -130,7 +136,7 @@ public class JobsClickMenu implements Listener {
 		chasseur.setItem(15, getItem(Material.WOOL, (byte)14, "Quitter ce métier", "", "", "", "", ""));
 		chasseur.setItem(16, getItem(Material.FIREWORK, (byte)0, "Aller dans ce métier", "", "", "", "", ""));
 		chasseur.setItem(17, getItem(Material.ARROW, (byte)0, "retour", "", "", "", "", ""));
-		Chasseur = chasseur;
+		this.Chasseur = chasseur;
 		
 		//acceuil
 		Inventory acceuil = Bukkit.createInventory(null, 9, MainJobsCmd.acceuilJ);
@@ -140,12 +146,39 @@ public class JobsClickMenu implements Listener {
 		acceuil.setItem(Jobs.BUCHERON.getSlot(), Jobs.BUCHERON.getItem());
 		acceuil.setItem(Jobs.CHASSEUR.getSlot(), Jobs.CHASSEUR.getItem());
 		acceuil.setItem(Jobs.DEFENSEUR.getSlot(), Jobs.DEFENSEUR.getItem());
-		acceuil.setItem(8, getItem2(Material.WOOL, (byte)14, "Quitter"));
-		acceuil.setItem(7, getItem2(Material.WOOL, (byte)3, "Moi"));
-		Acceuil = acceuil;
+		acceuil.setItem(8, getItem0(Material.WOOL, (byte)14, ChatColor.DARK_GRAY+"Quitter"));
+		acceuil.setItem(7, getItem0(Material.WOOL, (byte)3, ChatColor.AQUA+"Moi"));
+		this.Acceuil = acceuil;
 	}
-	
-	private ItemStack getItem2(Material mat, byte data, String name) {
+
+	//METHODES
+	private ItemStack getItem3(Material mat, byte data, String name, String desc1, String desc2, String desc3, String desc4) {
+		ItemStack i = new ItemStack(mat, 1, data);
+		ItemMeta iM = i.getItemMeta();
+		iM.setDisplayName(ChatColor.GREEN+name);
+		ArrayList<String> desc = new ArrayList<>();
+		desc.add(desc1);
+		desc.add(desc2);
+		desc.add(desc3);
+		desc.add(desc4);
+		iM.setLore(desc);
+		i.setItemMeta(iM);
+		return i;
+	}
+
+	private ItemStack getItem1(Material mat, byte data, String name, String desc1, String desc2) {
+		ItemStack i = new ItemStack(mat, 1, data);
+		ItemMeta iM = i.getItemMeta();
+		iM.setDisplayName(ChatColor.GREEN+name);
+		ArrayList<String> desc = new ArrayList<>();
+		desc.add(desc1);
+		desc.add(desc2);
+		iM.setLore(desc);
+		i.setItemMeta(iM);
+		return i;
+	}
+
+	private ItemStack getItem0(Material mat, byte data, String name) {
 		ItemStack i = new ItemStack(mat, 1, data);
 		ItemMeta iM = i.getItemMeta();
 		iM.setDisplayName(name);
@@ -200,11 +233,11 @@ public class JobsClickMenu implements Listener {
 				p.openInventory(Chasseur);
 				e.setCancelled(true);
 			}
-			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals("Quitter")){
+			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.DARK_GRAY+"Quitter")){
 				p.closeInventory();
 				e.setCancelled(true);
 			}
-			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals("Moi")){
+			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA+"Moi")){
 				p.closeInventory();
 				p.performCommand("jobs moi");
 				e.setCancelled(true);
@@ -215,7 +248,7 @@ public class JobsClickMenu implements Listener {
 			if(item.contains(ci)){ //laine verte : item descriptif de niveau
 				e.setCancelled(true);
 			}
-			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals("Quitter ce métier")){ //laine rouge : quitter ce metier
+			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED+"Quitter ce métier")){ //laine rouge : quitter ce metier
 				if(Jobs.FERMIER.getUtilisator(uuid) != Jobs.FERMIER){
 					p.closeInventory();
 					p.sendMessage("Vous n'êtes pas fermier.");
@@ -251,7 +284,7 @@ public class JobsClickMenu implements Listener {
 			if(item.contains(ci)){ //laine verte : item descriptif de niveau
 				e.setCancelled(true);
 			}
-			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equals("Quitter ce métier")){ //laine rouge : quitter ce metier
+			if(e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("Quitter ce métier")){ //laine rouge : quitter ce metier
 				if(Jobs.MINEUR.getUtilisator(uuid) != Jobs.MINEUR){
 					p.closeInventory();
 					p.sendMessage("Vous n'êtes pas mineur.");
