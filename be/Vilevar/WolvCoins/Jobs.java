@@ -53,9 +53,8 @@ public enum Jobs {
 	//REPERER S IL EST CE METIER
 	public Jobs getUtilisator(UUID uuid){
 		
-		if(uuid == null){
-			return null;
-		}
+		if(uuid == null) return null;
+		
 		if(WolvCoins.getInstance().jobs.get(uuid) != null){
 			return WolvCoins.getInstance().jobs.get(uuid);
 		}
@@ -71,7 +70,7 @@ public enum Jobs {
 			return 0;
 		}
 		
-		if(WolvCoins.getInstance().level.get(uuid) != null){
+		if(WolvCoins.getInstance().level.containsKey(uuid) && WolvCoins.getInstance().level.get(uuid) != null){
 			return WolvCoins.getInstance().level.get(uuid);
 			
 		}else{
@@ -86,7 +85,7 @@ public enum Jobs {
 			return 0;
 		}
 		
-		if(WolvCoins.getInstance().jobs.get(uuid) != null){
+		if(WolvCoins.getInstance().miniLvl.containsKey(uuid) && WolvCoins.getInstance().miniLvl.get(uuid) != null){
 			return WolvCoins.getInstance().miniLvl.get(uuid);
 			
 		}else{
@@ -148,18 +147,17 @@ public enum Jobs {
 			double add = d;
 			double finalMiniLvl = 0;
 			
-			if(WolvCoins.getInstance().level.containsKey(uuid)){
-				
-				int miniLvl = WolvCoins.getInstance().level.get(uuid);
-				double finaLminiLvl = miniLvl + add;
-				finalMiniLvl = finaLminiLvl;
-				
-				WolvCoins.getInstance().miniLvl.remove(uuid);
-				
-			}else{
+			if(!WolvCoins.getInstance().miniLvl.containsKey(uuid)){
 				finalMiniLvl = add;
 			}
-			
+			else if(WolvCoins.getInstance().miniLvl.containsKey(uuid)){
+				
+				double miniLvl = WolvCoins.getInstance().miniLvl.get(uuid);
+				double miMiniLvl = add + miniLvl;
+				finalMiniLvl = miMiniLvl;
+				
+				WolvCoins.getInstance().miniLvl.remove(uuid);
+			}
 			WolvCoins.getInstance().miniLvl.put(uuid, finalMiniLvl);
 		}
 	}
