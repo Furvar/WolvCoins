@@ -35,8 +35,8 @@ public class MainJobsCmd implements CommandExecutor {
 						acceuil.setItem(Jobs.BUCHERON.getSlot(), Jobs.BUCHERON.getItem());
 						acceuil.setItem(Jobs.CHASSEUR.getSlot(), Jobs.CHASSEUR.getItem());
 						acceuil.setItem(Jobs.DEFENSEUR.getSlot(), Jobs.DEFENSEUR.getItem());
-						acceuil.setItem(8, getItem(Material.WOOL, (byte)14, "Quitter"));
-						acceuil.setItem(7, getItem(Material.WOOL, (byte)3, "Moi"));
+						acceuil.setItem(8, getItem(Material.WOOL, (byte)14, ChatColor.DARK_GRAY+"Quitter"));
+						acceuil.setItem(7, getItem(Material.WOOL, (byte)3, ChatColor.AQUA+"Moi"));
 					
 						p.openInventory(acceuil);
 					}
@@ -45,67 +45,22 @@ public class MainJobsCmd implements CommandExecutor {
 							if(Jobs.FERMIER.getUtilisator(uuid) == null){
 								p.sendMessage("Vous n'avez pas de métier");
 							}else{	
-								switch(Jobs.FERMIER.getLevel(uuid)){
-							
-									case 0:
-										p.sendMessage("Votre niveau de métier est 0.");
-									break;
-							
-									case 1:
-										p.sendMessage("Vous êtes niveau 1 de métier.");
-									break;
-								
-									case 2:
-										p.sendMessage("Vous êtes niveau 2 de métier");
-									break;
-								
-									case 3:
-										p.sendMessage("Vous êtes niveau 3 de métier");
-									break;
-								
-									case 4:
-										p.sendMessage("Vous êtes niveau 4 de métier");
-									break;
-								
-									case 5:
-										p.sendMessage("Vous êtes niveau 5 de métier");
-									break;
-								
-									case 6:
-										p.sendMessage("Vous êtes niveau 6 de métier");
-									break;
-								
-									case 7:
-										p.sendMessage("Vous êtes niveau 7 de métier");
-									break;
-								
-									case 8:
-										p.sendMessage("Vous êtes niveau 8 de métier");
-									break;
-								
-									case 9:
-										p.sendMessage("Vous êtes niveau 9 de métier");
-									break;
-								
-									case 10:
-										p.sendMessage("Vous êtes niveau 10 de métier");
-									break;
+								if(Jobs.FERMIER.getUtilisator(uuid) == Jobs.FERMIER){
+									p.sendMessage("Vous êtes fermier");
 								}
-									if(Jobs.FERMIER.getUtilisator(uuid) == Jobs.FERMIER){
-										p.sendMessage("Vous êtes fermier");
-									}
-									if(Jobs.MINEUR.getUtilisator(uuid) == Jobs.MINEUR){
-										p.sendMessage("Vous êtes mineur");
-									}
-									if(Jobs.BUCHERON.getUtilisator(uuid) == Jobs.BUCHERON){
-										p.sendMessage("Vous êtes bucheron");
-									}
-									if(Jobs.CHASSEUR.getUtilisator(uuid) == Jobs.CHASSEUR){
-										p.sendMessage("Vous êtes chasseur");
-									}
-									if(Jobs.DEFENSEUR.getUtilisator(uuid) == Jobs.DEFENSEUR){
-										p.sendMessage("Vous êtes défenseur");
+								if(Jobs.MINEUR.getUtilisator(uuid) == Jobs.MINEUR){
+									p.sendMessage("Vous êtes mineur");
 								}
+								if(Jobs.BUCHERON.getUtilisator(uuid) == Jobs.BUCHERON){
+									p.sendMessage("Vous êtes bucheron");
+								}
+								if(Jobs.CHASSEUR.getUtilisator(uuid) == Jobs.CHASSEUR){
+									p.sendMessage("Vous êtes chasseur");
+								}
+								if(Jobs.DEFENSEUR.getUtilisator(uuid) == Jobs.DEFENSEUR){
+									p.sendMessage("Vous êtes défenseur");
+								}
+								p.sendMessage("Votre niveau de métier est de "+Jobs.FERMIER.getLevel(uuid)+" et mini-niveau de "+Jobs.FERMIER.getminiLvl(uuid)+".");
 							}
 						}
 						if(args[0].equalsIgnoreCase("addLvl")){
