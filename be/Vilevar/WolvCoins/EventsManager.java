@@ -8,6 +8,7 @@ import be.Vilevar.WolvCoins.Commands.Coins;
 import be.Vilevar.WolvCoins.Commands.MainJobsCmd;
 import be.Vilevar.WolvCoins.Jobs.Fermier;
 import be.Vilevar.WolvCoins.Jobs.JobsClickMenu;
+import be.Vilevar.WolvCoins.Utils.Shop;
 
 public class EventsManager {
 
@@ -21,7 +22,7 @@ public class EventsManager {
 
 		PluginManager pm = Bukkit.getPluginManager();
 		
-		// for coins
+		//for coins
 		pl.getCommand("coins").setExecutor(new Coins());
 		
 		//for jobs
@@ -33,5 +34,7 @@ public class EventsManager {
 		pm.registerEvents(new Chasseur(), pl);
 		pm.registerEvents(new Defenseur(), pl);*/
 		
+		//for shop
+		pm.registerEvents(new Shop(), pl);
 	}
 }
