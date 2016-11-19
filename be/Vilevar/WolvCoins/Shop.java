@@ -70,7 +70,7 @@ public class Shop implements Listener {
 						}
 					}
 				}else{
-					p.sendMessage(ChatColor.DARK_RED+"Error: "+ChatColor.RED+"Vous n'avez pas la permission de vendre ˆ ce shop.");
+					p.sendMessage(ChatColor.DARK_RED+"Error: "+ChatColor.RED+"Vous n'avez pas la permission de vendre à ce shop.");
 				}
 			}
 		}
@@ -82,9 +82,9 @@ public class Shop implements Listener {
 		Player p = e.getPlayer();
 		if(isShop(e.getBlock())){
 			if(p.hasPermission("wolvcoins.shop.set")){
-				p.sendMessage(ChatColor.GREEN+"Shop poser avec succs.");
+				p.sendMessage(ChatColor.GREEN+"Shop posé avec succès.");
 			}else{
-				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez ce poser de shop.");
+				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez pas poser de shop.");
 				e.setCancelled(true);
 			}
 		}
@@ -96,9 +96,9 @@ public class Shop implements Listener {
 		Player p = e.getPlayer();
 		if(isShop(e.getBlock())){
 			if(p.hasPermission("wolvcoins.shop.remove")){
-				p.sendMessage(ChatColor.GREEN+"Shop casser avec succs.");
+				p.sendMessage(ChatColor.GREEN+"Shop casser avec succès.");
 			}else{
-				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez ce casser de shop.");
+				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez pas casser de shop.");
 				e.setCancelled(true);
 			}
 		}
