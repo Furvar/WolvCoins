@@ -35,7 +35,7 @@ public class WolvCoins extends JavaPlugin implements Listener {
 
 	//best coins
 	public double meilleurCW = 1;
-	public String meilleurPlayer = ChatColor.DARK_BLUE+"¤kpersonne";
+	public String meilleurPlayer = ChatColor.DARK_BLUE+"¤kpersonne¤r";
 
 	//economy
 	public Economy economy = null;
