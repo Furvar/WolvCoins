@@ -45,10 +45,10 @@ public class Shop implements Listener {
 	public void onEventShopUtilise(PlayerInteractEvent e){
 		
 		Player p = e.getPlayer();
-		BlockState block = e.getClickedBlock().getState();
 		
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
-			if(isShop(e.getClickedBlock())){
+			BlockState block = e.getClickedBlock().getState();
+			if(isShop(e.getClickedBlock()) && block!=null){
 				Sign sign = (Sign) block;
 				if(p.hasPermission("wolvcoins.shop.use") && setupEconomy()){
 						
@@ -59,18 +59,18 @@ public class Shop implements Listener {
 							if(!p.isSneaking()){
 								p.getInventory().getItemInHand().setAmount(p.getInventory().getItemInHand().getAmount() - 1);
 								economy.depositPlayer(p, HallowPrice);
-								p.sendMessage(ChatColor.GREEN+"Achat réussi, vous avez désormais "+economy.getBalance(p)+" C.W.");
+								p.sendMessage(ChatColor.GREEN+"Achat r√©ussi, vous avez d√©sormais "+economy.getBalance(p)+" C.W.");
 							}else{
 								economy.depositPlayer(p, HallowPrice * p.getInventory().getItemInHand().getAmount());
 								p.getInventory().setItemInHand(null);
-								p.sendMessage(ChatColor.GREEN+"Achat réussi, vous avez désormais "+economy.getBalance(p)+" C.W.");
+								p.sendMessage(ChatColor.GREEN+"Achat r√©ussi, vous avez d√©sormais "+economy.getBalance(p)+" C.W.");
 							}
 						}else{
 							p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous n'avez pas de citrouilles "+ChatColor.GOLD+"Event Halloween"+ChatColor.RED+" dans votre main.");
 						}
 					}
 				}else{
-					p.sendMessage(ChatColor.DARK_RED+"Error: "+ChatColor.RED+"Vous n'avez pas la permission de vendre à ce shop.");
+					p.sendMessage(ChatColor.DARK_RED+"Error: "+ChatColor.RED+"Vous n'avez pas la permission de vendre √† ce shop.");
 				}
 			}
 		}
@@ -82,9 +82,9 @@ public class Shop implements Listener {
 		Player p = e.getPlayer();
 		if(isShop(e.getBlock())){
 			if(p.hasPermission("wolvcoins.shop.set")){
-				p.sendMessage(ChatColor.GREEN+"Shop poser avec succès.");
+				p.sendMessage(ChatColor.GREEN+"Shop pos√© avec succ√®¬ès.");
 			}else{
-				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez ce poser de shop.");
+				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez pas poser de shop.");
 				e.setCancelled(true);
 			}
 		}
@@ -96,9 +96,9 @@ public class Shop implements Listener {
 		Player p = e.getPlayer();
 		if(isShop(e.getBlock())){
 			if(p.hasPermission("wolvcoins.shop.remove")){
-				p.sendMessage(ChatColor.GREEN+"Shop casser avec succès.");
+				p.sendMessage(ChatColor.GREEN+"Shop casser avec succ√®¬ès.");
 			}else{
-				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez ce casser de shop.");
+				p.sendMessage(ChatColor.DARK_RED+"Error:"+ChatColor.RED+" Vous ne pouvez pas casser de shop.");
 				e.setCancelled(true);
 			}
 		}
@@ -119,7 +119,7 @@ public class Shop implements Listener {
 		BlockState block = b.getState();
 		if(block instanceof Sign){
 			Sign sign = (Sign)block;
-			if(sign.getLine(0).equalsIgnoreCase("§d§lShop") && (sign.getLine(1).equalsIgnoreCase(ChatColor.RED+"Sell") || sign.getLine(1).equalsIgnoreCase(ChatColor.AQUA+"Buy")) && vente.contains(sign.getLine(2))){
+			if(sign.getLine(0).equalsIgnoreCase("¬ßd¬ßlShop") && (sign.getLine(1).equalsIgnoreCase(ChatColor.RED+"Sell") || sign.getLine(1).equalsIgnoreCase(ChatColor.AQUA+"Buy")) && vente.contains(sign.getLine(2))){
 				return true;
 			}else{
 				return false;
